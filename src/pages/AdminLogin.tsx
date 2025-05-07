@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -40,6 +41,23 @@ const AdminLogin = () => {
     setIsLoading(false);
   };
 
+  const handleQuickLogin = () => {
+    setIsLoading(true);
+    
+    // Set admin token for quick login
+    localStorage.setItem('adminToken', 'admin-session-token');
+    
+    toast({
+      title: "Quick login successful",
+      description: "Welcome to the admin dashboard",
+    });
+    
+    // Navigate to admin dashboard
+    navigate('/admin/dashboard');
+    
+    setIsLoading(false);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md">
@@ -51,6 +69,18 @@ const AdminLogin = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            <Button 
+              onClick={handleQuickLogin} 
+              className="w-full bg-green-500 hover:bg-green-600 mb-4" 
+              disabled={isLoading}
+            >
+              One-Click Admin Login
+            </Button>
+            
+            <Separator className="my-4">
+              <span className="mx-2 text-xs text-gray-500">OR</span>
+            </Separator>
+            
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
                 <label htmlFor="username" className="text-sm font-medium">Username</label>
