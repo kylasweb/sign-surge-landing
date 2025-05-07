@@ -1,8 +1,22 @@
 
 import React from 'react';
 
-const PainPoints = () => {
-  const problems = [
+interface PainPointsProps {
+  customData?: {
+    title: string;
+    problems: Array<{
+      id: number;
+      question: string;
+      icon: string;
+      description: string;
+    }>;
+  };
+}
+
+const PainPoints = ({ customData }: PainPointsProps) => {
+  // Use custom data if provided, otherwise use defaults
+  const title = customData?.title || "Is Your Business Suffering From These Signage Problems?";
+  const problems = customData?.problems || [
     {
       id: 1,
       question: "Invisible storefronts losing customers?",
@@ -27,8 +41,8 @@ const PainPoints = () => {
     <section id="problems" className="py-16 md:py-24 bg-white">
       <div className="container">
         <h2 className="section-title">
-          Is Your Business Suffering From These Signage
-          <span className="block text-highlight"> Problems?</span>
+          {title.split(" ").slice(0, -1).join(" ")}
+          <span className="block text-highlight"> {title.split(" ").slice(-1)[0]}</span>
         </h2>
         
         <div className="grid md:grid-cols-3 gap-8 mt-12">

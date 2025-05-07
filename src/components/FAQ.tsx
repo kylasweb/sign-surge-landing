@@ -1,72 +1,68 @@
 
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
-const FAQ = () => {
-  const faqs = [
-    {
-      question: "What if I hate the design?",
-      answer: "We'll redesign it free until you're thrilled! Your satisfaction is our top priority, and we won't stop until you love the result. Our design process includes unlimited revisions until you give final approval."
-    },
-    {
-      question: "Can you beat competitors' prices?",
-      answer: "We'll match any legitimate offer from a UAE competitor and give you 10% extra value in free services! Simply share their quote with us, and we'll not only match it but add additional value through complimentary services."
+interface FAQProps {
+  customData?: {
+    title: string;
+    items: Array<{
+      question: string;
+      answer: string;
+    }>;
+  };
+}
+
+const FAQ = ({ customData }: FAQProps) => {
+  // Use custom data if provided, otherwise use defaults
+  const title = customData?.title || "Frequently Asked Questions";
+  const items = customData?.items || [
+    { 
+      question: "What if I hate the design?", 
+      answer: "We'll redesign it free until you're thrilled!" 
     },
     {
       question: "How long does production take?",
-      answer: "Standard production is 7-10 business days, but our rush service can deliver in as little as 24 hours! For urgent projects, we offer expedited timelines without compromising on quality."
+      answer: "Standard production is 7-10 business days, but our rush service can deliver in as little as 24 hours!"
     },
     {
-      question: "Do you handle installation?",
-      answer: "Yes! Professional installation is included with every project, and we handle all permits and regulations. Our experienced team will manage the entire process from start to finish, ensuring your signage is properly installed and meets all local requirements."
+      question: "Do you help with installation?",
+      answer: "Absolutely! Our professional installation team handles everything from permits to final placement."
     },
     {
-      question: "What types of signage do you create?",
-      answer: "We create every type of signage: storefront, digital, interior, vehicle wraps, trade show displays, and more. Whatever your business needs to stand out, we can design, produce, and install it with premium quality and attention to detail."
+      question: "What materials do you use?",
+      answer: "We use only premium-grade materials that withstand Dubai's harsh climate, backed by our industry-leading warranty."
     },
     {
-      question: "Do you offer warranties?",
-      answer: "Absolutely! All our signage comes with a 5-year warranty covering materials, craftsmanship, and even LED lighting components. If anything fails during the warranty period, we'll repair or replace it at no cost to you."
+      question: "Can I see samples before ordering?",
+      answer: "Yes! We provide physical material samples and detailed digital mockups before production begins."
     }
   ];
-
+  
   return (
-    <section id="faq" className="py-16 md:py-24 bg-gray-50">
+    <section id="faq" className="py-16 md:py-24 bg-white">
       <div className="container">
-        <h2 className="section-title">
-          Frequently Asked
-          <span className="text-highlight"> Questions</span>
-        </h2>
-        
-        <div className="max-w-3xl mx-auto mt-12">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="section-title mb-12 text-center">{title}</h2>
+          
           <Accordion type="single" collapsible className="w-full">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="mb-4 border border-gray-200 rounded-lg bg-white">
-                <AccordionTrigger className="px-6 py-4 font-medium hover:no-underline">
-                  {faq.question}
+            {items.map((item, index) => (
+              <AccordionItem key={index} value={`item-${index}`}>
+                <AccordionTrigger className="text-left text-lg font-semibold">
+                  {item.question}
                 </AccordionTrigger>
-                <AccordionContent className="px-6 pb-4 pt-2">
-                  {faq.answer}
+                <AccordionContent className="text-gray-600">
+                  {item.answer}
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
-        
-        <div className="mt-12 text-center">
-          <p className="text-gray-600">
-            Still have questions? Contact our team for immediate assistance.
-          </p>
-          <button className="mt-4 inline-flex items-center text-highlight hover:text-highlight/80 font-medium">
-            Contact Support
-            <ArrowRight className="ml-2" size={16} />
-          </button>
+          
+          <div className="mt-12 text-center">
+            <p className="text-lg">Still have questions? Contact our team directly.</p>
+            <button className="mt-4 px-8 py-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors">
+              Contact Support
+            </button>
+          </div>
         </div>
       </div>
     </section>

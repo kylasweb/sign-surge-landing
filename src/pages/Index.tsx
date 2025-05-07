@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import PainPoints from '@/components/PainPoints';
@@ -11,20 +11,36 @@ import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import Achievements from '@/components/Achievements';
 import { ArrowRight } from 'lucide-react';
+import { ComponentData } from '@/components/admin/PageEditor';
 
 const Index = () => {
+  const [publishedData, setPublishedData] = useState<ComponentData | null>(null);
+  
+  useEffect(() => {
+    // Load published data from local storage
+    const savedData = localStorage.getItem('publishedLandingPageData');
+    if (savedData) {
+      try {
+        setPublishedData(JSON.parse(savedData));
+      } catch (error) {
+        console.error('Failed to parse published data:', error);
+      }
+    }
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Header />
       <main>
-        <Hero />
-        <Achievements />
-        <PainPoints />
+        {/* Pass data to components if it exists, otherwise they'll use their defaults */}
+        <Hero customData={publishedData?.hero} />
+        <Achievements customData={publishedData?.achievements} />
+        <PainPoints customData={publishedData?.painPoints} />
         <CaseStudies />
         <OfferStack />
         <ComparisonTable />
         <UrgencyCTA />
-        <FAQ />
+        <FAQ customData={publishedData?.faq} />
         <section className="py-16 bg-gray-50">
           <div className="container">
             <div className="text-center max-w-3xl mx-auto">

@@ -1,68 +1,22 @@
 
 import React, { useState, useEffect } from 'react';
+import { ComponentData } from './PageEditor';
 
 interface PreviewFrameProps {
   sectionId: string;
+  componentsData: ComponentData;
 }
 
-const PreviewFrame = ({ sectionId }: PreviewFrameProps) => {
+const PreviewFrame = ({ sectionId, componentsData }: PreviewFrameProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [previewSize, setPreviewSize] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   
-  // States for the section data - in a real app, this would be shared with the ComponentEditor
-  const [sectionData, setSectionData] = useState({
-    hero: {
-      title: "Dubai's #1 Custom Signage",
-      subtitle: "Get 40% More Foot Traffic or We'll Rebuild It Free!",
-      description: "Attention Retailers: Our Proven Designs Make Your Business Impossible to Miss",
-      ctaText: "👉 GET MY FREE SIGNAGE PROPOSAL",
-      features: [
-        "500+ UAE Businesses Trust Us",
-        "24-Hour Rush Service",
-        "Free Design Consultation"
-      ],
-      backgroundColor: "#ffffff",
-      textColor: "#000000",
-      buttonColor: "#4338ca",
-      buttonTextColor: "#ffffff",
-      layout: "centered",
-      alignment: "left",
-      padding: "medium",
-      spacing: "medium",
-      showImage: true,
-      imagePosition: "right",
-      imageUrl: "",
-      backgroundImage: "" // Added missing property
-    },
-    achievements: {
-      title: "Our Achievements",
-      items: [
-        { number: "500+", label: "Completed Projects" },
-        { number: "350+", label: "Satisfied Clients" },
-        { number: "25+", label: "Industry Awards" }
-      ]
-    },
-    faq: {
-      title: "Frequently Asked Questions",
-      items: [
-        { 
-          question: "What if I hate the design?", 
-          answer: "We'll redesign it free until you're thrilled!" 
-        },
-        {
-          question: "How long does production take?",
-          answer: "Standard production is 7-10 business days, but our rush service can deliver in as little as 24 hours!"
-        }
-      ]
-    }
-  });
-
   // Simulate loading preview
   useEffect(() => {
     setIsLoading(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 500);
     
     return () => clearTimeout(timer);
   }, [sectionId]);
@@ -81,9 +35,14 @@ const PreviewFrame = ({ sectionId }: PreviewFrameProps) => {
     }
   };
 
-  // This function would be more complex in a real implementation
+  // Get the section data based on the section ID
+  const getSectionData = () => {
+    return componentsData[sectionId as keyof ComponentData];
+  };
+
+  // This function generates the preview for each section type
   const getSectionPreview = () => {
-    const currentSection = sectionData[sectionId as keyof typeof sectionData];
+    const currentSection = getSectionData();
     
     if (!currentSection) {
       return (
@@ -95,7 +54,7 @@ const PreviewFrame = ({ sectionId }: PreviewFrameProps) => {
     
     switch (sectionId) {
       case 'hero': {
-        const heroSection = currentSection as typeof sectionData.hero;
+        const heroSection = currentSection as ComponentData['hero'];
         
         const sectionStyle = {
           backgroundColor: heroSection.backgroundColor,
@@ -163,7 +122,7 @@ const PreviewFrame = ({ sectionId }: PreviewFrameProps) => {
       }
       
       case 'achievements': {
-        const achievementsSection = currentSection as typeof sectionData.achievements;
+        const achievementsSection = currentSection as ComponentData['achievements'];
         
         return (
           <div className="bg-white p-8 rounded-lg border">
@@ -181,7 +140,7 @@ const PreviewFrame = ({ sectionId }: PreviewFrameProps) => {
       }
       
       case 'faq': {
-        const faqSection = currentSection as typeof sectionData.faq;
+        const faqSection = currentSection as ComponentData['faq'];
         
         return (
           <div className="bg-gray-50 p-8 rounded-lg">
@@ -191,6 +150,27 @@ const PreviewFrame = ({ sectionId }: PreviewFrameProps) => {
                 <div key={index} className="p-4 bg-white rounded-lg">
                   <h3 className="font-bold">{item.question}</h3>
                   <p className="text-gray-600">{item.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
+      
+      case 'painPoints': {
+        const painPointsSection = currentSection as ComponentData['painPoints'];
+        
+        return (
+          <div className="bg-white p-8 rounded-lg">
+            <h2 className="text-2xl font-bold mb-6 text-center">{painPointsSection.title}</h2>
+            <div className="grid grid-cols-3 gap-4">
+              {painPointsSection.problems.map((problem) => (
+                <div key={problem.id} className="p-4 border rounded-lg">
+                  <div className="bg-gray-100 w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-4">
+                    {problem.icon}
+                  </div>
+                  <h3 className="text-lg font-bold mb-2">{problem.question}</h3>
+                  <p className="text-gray-600">{problem.description}</p>
                 </div>
               ))}
             </div>
