@@ -36,7 +36,7 @@ const ComponentEditor = ({ sectionId }: ComponentEditorProps) => {
         "24-Hour Rush Service",
         "Free Design Consultation"
       ],
-      backgroundImage: "",
+      backgroundImage: "", // Added to match PreviewFrame
       backgroundColor: "#ffffff",
       textColor: "#000000",
       buttonColor: "#4338ca",

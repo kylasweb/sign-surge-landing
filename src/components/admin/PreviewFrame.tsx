@@ -31,7 +31,8 @@ const PreviewFrame = ({ sectionId }: PreviewFrameProps) => {
       spacing: "medium",
       showImage: true,
       imagePosition: "right",
-      imageUrl: ""
+      imageUrl: "",
+      backgroundImage: "" // Added missing property
     },
     achievements: {
       title: "Our Achievements",
