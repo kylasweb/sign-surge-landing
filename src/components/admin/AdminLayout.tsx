@@ -44,8 +44,8 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
         <nav className="flex-1 p-4">
           <ul className="space-y-2">
             <li>
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 className="w-full justify-start"
                 onClick={() => navigate('/admin/dashboard')}
               >
@@ -54,8 +54,18 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
               </Button>
             </li>
             <li>
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
+                className="w-full justify-start"
+                onClick={() => navigate('/admin/builder')}
+              >
+                <Code className="mr-2" size={20} />
+                {isSidebarOpen && <span>Page Builder</span>}
+              </Button>
+            </li>
+            <li>
+              <Button
+                variant="ghost"
                 className="w-full justify-start"
                 onClick={() => {}}
               >
@@ -64,8 +74,8 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
               </Button>
             </li>
             <li>
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 className="w-full justify-start"
                 onClick={() => window.open('/', '_blank')}
               >
